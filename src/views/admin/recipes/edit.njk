@@ -2,7 +2,12 @@
 
 {% block content %}
   <section>
-    <form class="form" action="/admin/recipes?_method=PUT" method="POST">
+    <form 
+      class="form" 
+      enctype="multipart/form-data"
+      action="/admin/recipes?_method=PUT" 
+      method="POST"
+    >
       <div class="form__group">
         <h1>Editando receita</h1>
 
@@ -32,6 +37,7 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="/js/clone-field.js"></script>
-  <script src="/js/modal-delete.js"></script>
+<script src="/js/clone-field.js"></script>
+<script src="/js/modal-delete.js"></script>
+<script src="/js/upload.js"></script>
 {% endblock %}

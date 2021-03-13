@@ -2,7 +2,12 @@
 
 {% block content %}
   <section>
-    <form class="form" action="/admin/recipes" method="POST">
+    <form 
+      enctype="multipart/form-data" 
+      class="form" 
+      action="/admin/recipes" 
+      method="POST"
+    >
       <div class="form__group">
         <h1>Criando receita</h1>
         <button type="submit" class="button">Salvar receita</button>
@@ -15,4 +20,5 @@
 
 {% block scripts %}
   <script src="/js/clone-field.js"></script>
+  <script src="/js/upload.js"></script>
 {% endblock %}

@@ -1,11 +1,36 @@
 <div class="form__group">
-  <label>* Nome da receita</label>
-  <input type="text" name="title" value="{{ recipe.title }}">
+  <label>* Imagem da receita</label>
+  <input 
+    multiple 
+    name="photos"
+    accept="image/*" 
+    type="file" 
+    id="upload-input" 
+    onchange="PhotoUpload.handleInput(event)"
+    hidden
+  >
+  <div class="upload-container">
+    <label for="upload-input" class="upload-btn">
+      <i class="material-icons">add</i>
+    </label>
+
+    {% if images %}
+      {% for image in images %}
+        <div class="photo" id="{{ image.id }}">
+          <img src="{{ image.src }}" alt="{{ image.name }}">
+          <i class="material-icons" onclick="PhotoUpload.removeOldPhoto(event)">
+            close
+          </i>
+        </div>
+      {% endfor %}
+      <input type="hidden" name="removed_files">
+    {% endif %}
+  </div>
 </div>
 
 <div class="form__group">
-  <label>* Imagem da receita</label>
-  <input type="url" name="image" value="{{ recipe.image }}">
+  <label>* Nome da receita</label>
+  <input type="text" name="title" value="{{ recipe.title }}">
 </div>
 
 <div class="form__group">

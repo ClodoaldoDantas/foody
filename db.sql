@@ -45,3 +45,17 @@ ALTER SEQUENCE public.chefs_id_seq OWNED BY public.chefs.id;
 ALTER TABLE ONLY public.chefs ALTER COLUMN id SET DEFAULT nextval('public.chefs_id_seq'::regclass);
 
 ALTER TABLE ONLY public.chefs ADD CONSTRAINT chefs_pkey PRIMARY KEY (id);
+
+-- TABLE FILES
+create table files(
+	id SERIAL PRIMARY KEY,
+  name TEXT,
+  path TEXT NOT NULL
+);
+
+-- TABLE RECIPE_FILES
+create table recipe_files(
+	id SERIAL PRIMARY KEY,
+  recipe_id INTEGER REFERENCES recipes(id),
+  file_id INTEGER REFERENCES files(id)
+);
