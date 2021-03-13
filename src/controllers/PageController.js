@@ -1,5 +1,5 @@
-const Recipe = require("../models/Recipe");
-const Chef = require("../models/Chef");
+const Recipe = require('../models/Recipe');
+const Chef = require('../models/Chef');
 
 module.exports = {
   async index(req, res) {
@@ -10,13 +10,13 @@ module.exports = {
         ? await Recipe.findAll(filter)
         : await Recipe.findAll();
 
-      return res.render("pages/index", { recipes: data.rows, filter });
+      return res.render('pages/index', { recipes: data, filter });
     } catch (err) {
       console.log(err.message);
     }
   },
   about(req, res) {
-    return res.render("pages/about");
+    return res.render('pages/about');
   },
   async recipes(req, res) {
     const { filter } = req.query;
@@ -26,7 +26,7 @@ module.exports = {
         ? await Recipe.findAll(filter)
         : await Recipe.findAll();
 
-      return res.render("pages/recipes", { recipes: data.rows, filter });
+      return res.render('pages/recipes', { recipes: data, filter });
     } catch (err) {
       console.log(err.message);
     }
@@ -35,7 +35,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const data = await Recipe.findById(id);
-      return res.render("pages/recipe", { recipe: data.rows[0] });
+      return res.render('pages/recipe', { recipe: data });
     } catch (err) {
       console.log(err.message);
     }
@@ -43,7 +43,7 @@ module.exports = {
   async chefs(req, res) {
     try {
       const data = await Chef.find();
-      res.render("pages/chefs", { chefs: data.rows });
+      res.render('pages/chefs', { chefs: data.rows });
     } catch (err) {
       console.log(err.message);
     }

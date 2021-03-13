@@ -3,7 +3,7 @@ const date = require('../helpers/date');
 const fs = require('fs');
 
 module.exports = {
-  findAll(filter = '') {
+  async findAll(filter = '') {
     let query = `
       SELECT recipes.*, chefs.name as author 
       FROM recipes INNER JOIN chefs ON recipes.chef_id = chefs.id
@@ -13,24 +13,61 @@ module.exports = {
       query += `WHERE recipes.title ILIKE '%${filter}%'`;
     }
 
-    return db.query(query);
+    const recipes = await db.query(query);
+    const recipesWithImages = recipes.rows.map(async recipe => {
+      const image = await db.query(
+        `SELECT DISTINCT files.name FROM files 
+        INNER JOIN recipe_files on recipe_files.recipe_id = $1 LIMIT 1`,
+        [recipe.id]
+      );
+      const image_url = `http://localhost:5000/uploads/${image.rows[0].name}`;
+      return { ...recipe, image: image_url };
+    });
+
+    return Promise.all(recipesWithImages);
   },
-  findById(id) {
+  async findById(id) {
     const query = `
       SELECT recipes.*, chefs.name as author 
       FROM recipes INNER JOIN chefs ON recipes.chef_id = chefs.id
       WHERE recipes.id = $1
     `;
-    return db.query(query, [id]);
+
+    const recipe = await db.query(query, [id]);
+    const images = await db.query(
+      `SELECT DISTINCT files.* FROM files 
+      INNER JOIN recipe_files on recipe_files.recipe_id = $1`,
+      [recipe.rows[0].id]
+    );
+
+    return {
+      ...recipe.rows[0],
+      images: images.rows.map(image => ({
+        ...image,
+        src: `http://localhost:5000/uploads/${image.name}`,
+      })),
+    };
   },
-  findOne(data) {
+  async findOne(data) {
     const column = Object.keys(data)[0];
     const query = `
       SELECT recipes.*, chefs.name as author 
       FROM recipes INNER JOIN chefs ON recipes.chef_id = chefs.id
       WHERE ${column} = $1
     `;
-    return db.query(query, [data[column]]);
+
+    const recipes = await db.query(query, [data[column]]);
+    const recipesWithImages = recipes.rows.map(async recipe => {
+      const image = await db.query(
+        `SELECT DISTINCT files.name FROM files 
+        INNER JOIN recipe_files on recipe_files.recipe_id = $1 LIMIT 1`,
+        [recipe.id]
+      );
+      const image_url = `http://localhost:5000/uploads/${image.rows[0].name}`;
+      return { ...recipe, image: image_url };
+    });
+
+    return Promise.all(recipesWithImages);
   },
   create(data) {
     const query = `

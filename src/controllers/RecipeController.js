@@ -8,7 +8,7 @@ module.exports = {
   async index(req, res) {
     try {
       const data = await Recipe.findAll();
-      return res.render('admin/recipes/index', { recipes: data.rows });
+      return res.render('admin/recipes/index', { recipes: data });
     } catch (err) {
       console.log(err.message);
     }
@@ -17,7 +17,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const data = await Recipe.findById(id);
-      return res.render('admin/recipes/show', { recipe: data.rows[0] });
+      return res.render('admin/recipes/show', { recipe: data });
     } catch (err) {
       console.log(err.message);
     }
@@ -68,19 +68,12 @@ module.exports = {
   async edit(req, res) {
     try {
       const { id } = req.params;
-      const files = await RecipeFiles.files(id);
       const recipe = await Recipe.findById(id);
       const chefs = await Chef.findAll();
 
-      const images = files.rows.map(file => {
-        const src = `http://localhost:5000/uploads/${file.name}`;
-        return { ...file, src };
-      });
-
       return res.render('admin/recipes/edit', {
-        recipe: recipe.rows[0],
+        recipe,
         chefs: chefs.rows,
-        images,
       });
     } catch (err) {
       console.log(err.message);

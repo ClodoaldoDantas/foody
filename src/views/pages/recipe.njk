@@ -3,7 +3,25 @@
 {% block content %}
   <section class="page-detail">
     <header class="page-detail__header">
-      <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+      <div class="gallery">
+        <img src="{{ recipe.images[0].src }}" alt="{{ recipe.title }}">
+        <div 
+          class="gallery-thumbnails" 
+          style="grid-template-columns: repeat({{recipe.images.length}}, 80px)"
+        >
+          {% for image in recipe.images %}
+            <img 
+              src="{{image.src}}" 
+              alt="photo-{{image.name}}"
+              onclick="Gallery.setImage(event)"
+              {% if loop.index0 === 0 %}
+                class='active'
+              {% endif %}
+            >
+          {% endfor %}
+        </div>
+      </div>
+
       <h1>{{ recipe.title }}</h1>
       <span>por {{ recipe.author }}</span>
     </header>
@@ -51,4 +69,5 @@
 
 {% block scripts %}
   <script src="/js/collapse.js"></script>
+  <script src="/js/gallery.js"></script>
 {% endblock %}

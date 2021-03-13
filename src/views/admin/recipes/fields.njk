@@ -14,8 +14,8 @@
       <i class="material-icons">add</i>
     </label>
 
-    {% if images %}
-      {% for image in images %}
+    {% if recipe.images.length > 0 %}
+      {% for image in recipe.images %}
         <div class="photo" id="{{ image.id }}">
           <img src="{{ image.src }}" alt="{{ image.name }}">
           <i class="material-icons" onclick="PhotoUpload.removeOldPhoto(event)">

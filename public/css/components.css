@@ -424,3 +424,41 @@
   font-size: 4.8rem;
   color: rgba(0, 0, 0, 0.6);
 }
+
+/* GALLERY */
+.gallery {
+  margin-bottom: 5rem;
+}
+
+.gallery > img {
+  width: 100%;
+  height: 28rem;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-thumbnails {
+  display: grid;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.gallery-thumbnails img {
+  height: 8rem;
+  width: 100%;
+  border-radius: 1rem;
+  object-fit: cover;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.gallery-thumbnails img.active,
+.gallery-thumbnails img:hover {
+  opacity: 1;
+}
+
+/* .gallery-thumbnails img {
+  
+} */
