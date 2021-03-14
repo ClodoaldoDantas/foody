@@ -42,8 +42,8 @@ module.exports = {
   },
   async chefs(req, res) {
     try {
-      const data = await Chef.find();
-      res.render('pages/chefs', { chefs: data.rows });
+      const chefs = await Chef.find();
+      res.render('pages/chefs', { chefs });
     } catch (err) {
       console.log(err.message);
     }

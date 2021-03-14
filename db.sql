@@ -2,7 +2,6 @@
 CREATE TABLE public.recipes (
   id integer NOT NULL,
   chef_id integer,
-  image text,
   title text,
   information text,
   created_at timestamp without time zone,
@@ -28,7 +27,6 @@ ALTER TABLE ONLY public.recipes ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
 CREATE TABLE public.chefs (
   id integer NOT NULL,
   name text,
-  avatar_url text,
   created_at timestamp without time zone
 );
 
@@ -45,6 +43,8 @@ ALTER SEQUENCE public.chefs_id_seq OWNED BY public.chefs.id;
 ALTER TABLE ONLY public.chefs ALTER COLUMN id SET DEFAULT nextval('public.chefs_id_seq'::regclass);
 
 ALTER TABLE ONLY public.chefs ADD CONSTRAINT chefs_pkey PRIMARY KEY (id);
+
+ALTER TABLE chefs ADD COLUMN file_id INTEGER REFERENCES files(id);
 
 -- TABLE FILES
 create table files(

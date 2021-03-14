@@ -5,5 +5,21 @@
 
 <div class="form__group">
   <label>Avatar</label>
-  <input type="url" name="avatar_url" value="{{ chef.avatar_url }}">
+  {% if chef.filename %}
+    <input value={{ chef.filename }} class="image-url" disabled type="text">
+  {% else %}
+    <input style="display: none" class="image-url" disabled type="text">
+  {% endif %}
+  
+  <input 
+    accept="image/*"  
+    id="photo" 
+    name="photo" 
+    type="file" 
+    onchange="UploadSingle.handleInput(event)"
+    hidden
+  >
+  <label class="upload-label" for="photo">
+    Enviar Avatar
+  </label>
 </div>

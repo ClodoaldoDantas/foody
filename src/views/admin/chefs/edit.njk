@@ -2,7 +2,12 @@
 
 {% block content %}
   <section>
-    <form class="form" action="/admin/chefs?_method=PUT" method="POST">
+    <form 
+      enctype="multipart/form-data"
+      class="form"
+      action="/admin/chefs?_method=PUT" 
+      method="POST"
+    >
       <div class="form__group">
         <h1>Editando chef</h1>
 
@@ -15,6 +20,7 @@
       </div>
 
       <input type="hidden" name="id" value={{ chef.id }}>
+      <input name="file_id" type="hidden" value={{ chef.file_id }} />
       {% include 'admin/chefs/fields.njk' %}
     </form>
 
@@ -32,5 +38,6 @@
 {% endblock %}
 
 {% block scripts %}
+  <script src="/js/upload-single.js"></script>
   <script src="/js/modal-delete.js"></script>
 {% endblock %}

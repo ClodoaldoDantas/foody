@@ -16,7 +16,8 @@
 }
 
 /* BUTTON */
-.button {
+.button,
+.form__group .upload-label {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -329,6 +330,10 @@
   margin-top: 1rem;
 }
 
+.form__group input:disabled {
+  background-color: #eee;
+}
+
 .form__group a {
   display: block;
   font-weight: bold;
@@ -406,6 +411,10 @@
   opacity: 1;
 }
 
+.upload-label {
+  margin-top: 1rem;
+}
+
 /* UPLOAD */
 .form__group .upload-btn {
   width: 100%;
@@ -458,7 +467,3 @@
 .gallery-thumbnails img:hover {
   opacity: 1;
 }
-
-/* .gallery-thumbnails img {
-  
-} */

@@ -1,5 +1,6 @@
 const db = require('../database/connection');
 const date = require('../helpers/date');
+const getImageUrl = require('../helpers/image');
 const fs = require('fs');
 
 module.exports = {
@@ -16,11 +17,12 @@ module.exports = {
     const recipes = await db.query(query);
     const recipesWithImages = recipes.rows.map(async recipe => {
       const image = await db.query(
-        `SELECT DISTINCT files.name FROM files 
-        INNER JOIN recipe_files on recipe_files.recipe_id = $1 LIMIT 1`,
+        `SELECT files.* FROM files 
+        LEFT JOIN recipe_files on files.id = recipe_files.file_id
+        WHERE recipe_files.recipe_id = $1 LIMIT 1`,
         [recipe.id]
       );
-      const image_url = `http://localhost:5000/uploads/${image.rows[0].name}`;
+      const image_url = getImageUrl(image.rows[0].name);
       return { ...recipe, image: image_url };
     });
 
@@ -35,8 +37,10 @@ module.exports = {
 
     const recipe = await db.query(query, [id]);
     const images = await db.query(
-      `SELECT DISTINCT files.* FROM files 
-      INNER JOIN recipe_files on recipe_files.recipe_id = $1`,
+      `SELECT files.* FROM files 
+      LEFT JOIN recipe_files on files.id = recipe_files.file_id
+      WHERE recipe_files.recipe_id = $1
+      `,
       [recipe.rows[0].id]
     );
 
@@ -44,7 +48,7 @@ module.exports = {
       ...recipe.rows[0],
       images: images.rows.map(image => ({
         ...image,
-        src: `http://localhost:5000/uploads/${image.name}`,
+        src: getImageUrl(image.name),
       })),
     };
   },
@@ -59,11 +63,12 @@ module.exports = {
     const recipes = await db.query(query, [data[column]]);
     const recipesWithImages = recipes.rows.map(async recipe => {
       const image = await db.query(
-        `SELECT DISTINCT files.name FROM files 
-        INNER JOIN recipe_files on recipe_files.recipe_id = $1 LIMIT 1`,
+        `SELECT files.* FROM files 
+        LEFT JOIN recipe_files on files.id = recipe_files.file_id
+        WHERE recipe_files.recipe_id = $1 LIMIT 1`,
         [recipe.id]
       );
-      const image_url = `http://localhost:5000/uploads/${image.rows[0].name}`;
+      const image_url = getImageUrl(image.rows[0].name);
       return { ...recipe, image: image_url };
     });
 

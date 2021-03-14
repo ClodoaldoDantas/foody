@@ -19,9 +19,9 @@ routes.delete('/admin/recipes', recipeController.delete);
 routes.get('/admin/chefs', chefController.index);
 routes.get('/admin/chefs/create', chefController.create);
 routes.get('/admin/chefs/:id', chefController.show);
-routes.post('/admin/chefs', chefController.post);
+routes.post('/admin/chefs', upload.single('photo'), chefController.post);
 routes.get('/admin/chefs/:id/edit', chefController.edit);
-routes.put('/admin/chefs', chefController.put);
+routes.put('/admin/chefs', upload.single('photo'), chefController.put);
 routes.delete('/admin/chefs', chefController.delete);
 
 module.exports = routes;

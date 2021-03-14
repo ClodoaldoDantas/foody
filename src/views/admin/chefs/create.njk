@@ -2,7 +2,12 @@
 
 {% block content %}
   <section>
-    <form class="form" action="/admin/chefs" method="POST">
+    <form 
+      enctype="multipart/form-data" 
+      class="form" 
+      action="/admin/chefs" 
+      method="POST"
+    >
       <div class="form__group">
         <h1>Criando chef</h1>
         <button type="submit" class="button">Salvar chef</button>
@@ -10,4 +15,8 @@
       {% include 'admin/chefs/fields.njk' %}
     </form>
   </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="/js/upload-single.js"></script>
 {% endblock %}
