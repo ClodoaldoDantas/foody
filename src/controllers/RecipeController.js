@@ -24,8 +24,8 @@ module.exports = {
   },
   async create(req, res) {
     try {
-      const data = await Chef.findAll();
-      return res.render('admin/recipes/create', { chefs: data.rows });
+      const chefs = await Chef.findAll();
+      return res.render('admin/recipes/create', { chefs });
     } catch (err) {
       console.log(err.message);
     }
@@ -71,9 +71,11 @@ module.exports = {
       const recipe = await Recipe.findById(id);
       const chefs = await Chef.findAll();
 
+      console.log(chefs.rows);
+
       return res.render('admin/recipes/edit', {
         recipe,
-        chefs: chefs.rows,
+        chefs,
       });
     } catch (err) {
       console.log(err.message);
