@@ -11,7 +11,9 @@ module.exports = {
     `;
 
     if (filter) {
-      query += `WHERE recipes.title ILIKE '%${filter}%'`;
+      query += `WHERE recipes.title ILIKE '%${filter}%' ORDER BY updated_at DESC`;
+    } else {
+      query += 'ORDER BY created_at DESC';
     }
 
     const recipes = await db.query(query);
@@ -58,6 +60,7 @@ module.exports = {
       SELECT recipes.*, chefs.name as author 
       FROM recipes INNER JOIN chefs ON recipes.chef_id = chefs.id
       WHERE ${column} = $1
+      ORDER BY created_at DESC
     `;
 
     const recipes = await db.query(query, [data[column]]);
